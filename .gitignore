@@ -1,3 +1,15 @@
 .idea
 .DS_Store
 cmake-build-debug
+myerrors/calculate_sum/__pycache__
+myerrors/tex/tex.toc
+myerrors/tex/tex.synctex.gz
+myerrors/tex/tex.out
+myerrors/tex/tex.markdown.lua
+myerrors/tex/tex.markdown.in
+myerrors/tex/tex.log
+myerrors/tex/tex.fls
+myerrors/tex/tex.fdb_latexmk
+myerrors/tex/tex.aux
+myerrors/tex/_minted-tex
+myerrors/tex/_markdown_tex

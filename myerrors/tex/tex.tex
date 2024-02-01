@@ -1,0 +1,332 @@
+\documentclass[a4paper,11pt]{article}
+
+% \usepackage[smartEllipses]{markdown}
+% \usepackage[hashEnumerators,smartEllipses]{markdown}
+% \usepackage[hashEnumerators,smartEllipses,hybrid]{markdown}
+\usepackage[hybrid]{markdown}
+\usepackage[export]{adjustbox} % рамки вокруг фото
+\usepackage{minted} % Для вставки кода
+% \usepackage{xpatch}
+% \xpretocmd{\inputminted}{\par\vspace{1em}}{}{}
+% \xapptocmd{\inputminted}{\par\vspace{1em}}{}{}
+
+%%% Мои команды
+\newcommand{\insertMyCode}[2]{ % вставка кода
+    % #1 — язык
+    % #2 — путь до файла
+    \inputminted[
+    % framesep=2mm,
+    baselinestretch=1.2,
+    bgcolor=LightGray!30,
+    fontsize=\footnotesize,
+    linenos
+    ]{#1}{#2}
+}
+
+
+%%% Работа с русским языком
+\usepackage{cmap} % поиск в PDF
+\usepackage{mathtext} % русские буквы в фомулах
+\usepackage[T2A]{fontenc} % кодировка
+\usepackage[utf8]{inputenc} % кодировка исходного текста
+\usepackage[english,russian]{babel} % локализация и переносы
+
+%%% Дополнительная работа с математикой
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} % AMS
+\usepackage{icomma} % "Умная" запятая: $0,2$ —- число, $0, 2$ —- перечисление
+
+%%% Перенос знаков в формулах (по Львовскому)
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+%%% Работа с картинками
+\usepackage{graphicx} % Для вставки рисунков
+\graphicspath{{images/}} % папки с картинками
+% \setlength\fboxsep{3pt} % Отступ рамки \fbox{} от рисунка
+% \setlength\fboxrule{1pt} % Толщина линий рамки \fbox{}
+% \usepackage{wrapfig} % Обтекание рисунков текстом
+
+%%% Работа с таблицами
+\usepackage{array,tabularx,tabulary,booktabs} % Дополнительная работа с таблицами
+\usepackage{longtable} % Длинные таблицы
+\usepackage{multirow} % Слияние строк в таблице
+
+%%% Теоремы
+% \theoremstyle{plain} % Это стиль по умолчанию, его можно не переопределять.
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{proposition}[theorem]{Утверждение}
+
+\theoremstyle{definition} % "Определение"
+\newtheorem{corollary}{Следствие}[theorem]
+\newtheorem{problem}{Задача}[section]
+
+\theoremstyle{remark} % "Примечание"
+\newtheorem*{nonum}{Решение}
+
+%%% Программирование
+\usepackage{etoolbox} % логические операторы
+
+%%% Страница
+\usepackage{extsizes} % Возможность сделать 14-й шрифт
+\usepackage{geometry} % Простой способ задавать поля
+\geometry{top=25mm}
+\geometry{bottom=35mm}
+\geometry{left=20mm}
+\geometry{right=20mm}
+
+\usepackage{fancyhdr} % Колонтитулы
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0mm} % Толщина линейки, отчеркивающей верхний колонтитул
+% \lfoot{Нижний левый}
+% \rfoot{Нижний правый}
+% \rhead{Верхний правый}
+% \chead{Верхний в центре}
+% \lhead{Верхний левый}
+\cfoot % По умолчанию здесь номер страницы
+
+\usepackage{lastpage} % Узнать, сколько всего страниц в документе.
+
+\usepackage{soul} % Модификаторы начертания
+
+\usepackage{setspace} % Интерлиньяж
+%\onehalfspacing % Интерлиньяж 1.5
+%\doublespacing % Интерлиньяж 2
+%\singlespacing % Интерлиньяж 1
+
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames,svgnames,table,rgb]{xcolor}
+\hypersetup{ % Гиперссылки
+unicode=true, % русские буквы в раздела PDF
+pdftitle={Заголовок}, % Заголовок
+pdfauthor={Автор}, % Автор
+pdfsubject={Тема}, % Тема
+pdfcreator={Создатель}, % Создатель
+pdfproducer={Производитель}, % Производитель
+pdfkeywords={keyword1} {key2} {key3}, % Ключевые слова
+colorlinks=true, % false: ссылки в рамках; true: цветные ссылки
+linkcolor=red, % внутренние ссылки
+citecolor=green, % на библиографию
+filecolor=magenta, % на файлы
+urlcolor=cyan % на URL
+}
+
+\usepackage{multicol} % Несколько колонок
+
+%%% Хз что это (потом разобраться)
+% \usepackage{upgreek}
+\usepackage{cite}
+\usepackage{csquotes} % Еще инструменты для ссылок
+%Смотри источник 1 \cite{qwerty,Fama,Fama2}.
+%\renewcommand{\refname}{Список источников}  % По умолчанию %"Список литературы" (article)
+%\renewcommand{\bibname}{Литература}  % По умолчанию "Литература" (book и report)
+%\renewcommand{\familydefault}{\sfdefault} % Начертание шрифта
+
+\begin{document}
+
+
+\begin{titlepage} % начало титульной страницы
+\pagestyle{empty}
+\begin{center}
+
+\Large
+\textbf{Федеральное государственное автономное образовательное учреждение высшего образования\\
+«Национальный исследовательский университет\\
+«Высшая школа экономики»}\\
+\vspace{5mm}
+
+\Large
+Образовательная программа \\
+«Прикладная математика»
+\vspace{40mm}
+
+\Large
+\textbf{ОТЧЕТ} \\
+\textbf{по лабораторной работе № 1} \\
+\vspace{5mm}
+\Large
+По теме \\
+\LARGE\textbf{«Теория погрешностей и машинная арифметика»}
+\end{center}
+
+\begin{center}
+\vfill
+
+\large
+\begin{flushright}
+\textbf{Выполнил} \\
+студент группы БПМ211 \\
+Кудряшов Максим Дмитриевич \\
+\end{flushright}
+
+\large
+\begin{flushright}
+\textbf{Проверил} \\
+Брандышев Петр Евгеньевич \\
+\end{flushright}
+
+\large
+\vspace{20mm}
+Москва - 2024
+\end{center}
+\end{titlepage} % конец титульной страницы
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Расчет погрешности частичных сумм ряда (№ 1.1.8)}
+
+\subsection{Формулировка}
+
+1. Найти сумму ряда $S$ аналитически.
+
+$$S = \sum\limits_{n=0}^\infty \frac{32}{n^2+9n+20}$$
+
+2. Найти частичные суммы ряда $S_N$ при $N = 10, 10^2, 10^3, 10^4, 10^5$.
+
+$$S_N = \sum\limits_{n=0}^N \frac{32}{n^2+9n+20}$$
+
+3. Вычислить погрешности для каждого N.
+
+4. Вычислить количество значащих цифр для каждого N.
+
+5. Построить гистограмму зависимости верных цифр результата от $N$.
+
+\subsection{Найдем сумму ряда аналитически}
+
+Посчитаем значение предела в Wolfram:
+
+\begin{figure}[h]
+\frame{\includegraphics[width=0.3\linewidth]{../../calculate_sum/wolfram}}
+\end{figure}
+
+\subsection{Найдем частичные суммы ряда и их погрешности}
+
+Для различных значений N вычислим частичные суммы, погрешности и количество значащих цифр.
+
+\subsubsection{Код на Python}
+
+\insertMyCode{python3}{../calculate_sum/calculate_sum.py}
+
+\newpage
+\subsection{Посчитанные данные}
+
+\begin{minted}{python}
++--------+--------------------+------------------------+---------------------+
+| N      | Значение           | Погрешность            | Число значащих цифр |
++--------+--------------------+------------------------+---------------------+
+| 10     | 5.714285714285714  | 2.2857142857142856     | 0                   |
+| 100    | 7.69230769230769   | 0.30769230769231015    | 1                   |
+| 1000   | 7.968127490039844  | 0.03187250996015578    | 2                   |
+| 10000  | 7.9968012794882295 | 0.003198720511770503   | 3                   |
+| 100000 | 7.999680012799457  | 0.00031998720054282614 | 4                   |
++--------+--------------------+------------------------+---------------------+
+\end{minted}
+
+\begin{figure}[h]
+    \includegraphics[width=0.5\linewidth]{../../calculate_sum/digits}
+    \includegraphics[width=0.5\linewidth]{../../calculate_sum/errors}
+\end{figure}
+
+\section{Расчет погрешности матрицы (№ 1.9.2)}
+
+\subsection{Формулировка}
+
+Для матрицы $A$ решить вопрос о существовании обратной матрицы в следующих случаях:
+
+1. элементы матрицы заданы точно;
+
+2. элементы матрицы заданы приближенно с относительной погрешностью $\alpha = 0.05$ и $\beta = 0.1$
+
+$$
+A =
+\begin{pmatrix}
+    30 & 34 & 19 \\
+    31.4 & 35.4 & 20 \\
+    24 & 28 & 13 \\
+\end{pmatrix}
+$$
+
+\subsection{Теория}
+
+ДОПИСАТЬ ТЕОРИЮ, СКАЗАТЬ О ТЕОРЕМЕ
+
+\subsection{Код на Python}
+
+\insertMyCode{python3}{../matrix_det/matrix_det.py}
+
+\subsection{Вывод программы}
+
+\begin{minted}{text}
+Определитель без погрешности 9.600000000000069
+
+Минимальное значение определителя = -984.8728000000016
+Максимальное значение определителя = 1027.8990000000008
+При относительной погрешности 0.05 определитель может обратиться в 0
+
+Минимальное значение определителя = -2965.2384
+Максимальное значение определителя = 3032.2959999999985
+При относительной погрешности 0.1 определитель может обратиться в 0
+\end{minted}
+
+\subsection{Выводы}
+
+Если значения заданы точно, то определитель не равен 0, а следовательно существует обратная матрица.
+
+Если лементы матрицы заданы приближенно с относительной погрешностью $\alpha = 0.05$ и $\beta = 0.1$, то определитель можно равняться нулю, значит обратная матрица можно не существовать.
+
+\section{Нахождение машиннного нуля (№ 1.6, 1.7)}
+
+\subsection{Формулировка}
+
+Вычислить значения машинного нуля, машинной бесконечности, машинного эпсилон в режимах одинарной , двойной и расширенной точности на двух алгоритмических языках. Сравнить результаты.
+
+
+\subsection{Код на Python}
+
+\insertMyCode{python3}{../machine_values/machine_values.py}
+
+\subsection{Код на C++}
+
+\insertMyCode{c++}{../machine_values/machine_values.cpp}
+
+\subsection{Вывод кода на Python}
+
+\begin{minted}{text}
+<class 'numpy.float32'> машинный ноль = 2^-150
+<class 'numpy.float32'> машинная бесконечность = 2^128
+<class 'numpy.float32'> машинное эпсилон = 2^-24
+
+<class 'numpy.float64'> машинный ноль = 2^-1075
+<class 'numpy.float64'> машинная бесконечность = 2^1024
+<class 'numpy.float64'> машинное эпсилон = 2^-53
+
+<class 'numpy.longdouble'> машинный ноль = 2^-1075
+<class 'numpy.longdouble'> машинная бесконечность = 2^1024
+<class 'numpy.longdouble'> машинное эпсилон = 2^-53
+\end{minted}
+
+\subsection{Вывод кода на C++}
+
+\begin{minted}{text}
+f машинный ноль = 2^-150
+f машинная бесконечность = 2^128
+f машинное эпсилон = 2^-24
+
+d машинный ноль = 2^-1075
+d машинная бесконечность = 2^1024
+d машинное эпсилон = 2^-53
+
+e машинный ноль = 2^-1075
+e машинная бесконечность = 2^1024
+e машинное эпсилон = 2^-53
+\end{minted}
+
+\subsection{Сравнение результатов}
+
+Видно, что и машинный ноль, и машинное эпсилон, и машинная бесконечность совпадают для Python и для C++.
+
+
+
+
+\end{document}
