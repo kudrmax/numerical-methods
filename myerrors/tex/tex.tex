@@ -9,6 +9,10 @@
 % \usepackage{xpatch}
 % \xpretocmd{\inputminted}{\par\vspace{1em}}{}{}
 % \xapptocmd{\inputminted}{\par\vspace{1em}}{}{}
+% \usepackage{indentfirst}
+% \setlength{\parindent}{0pt} % Отключает отступ в начале каждого абзаца
+\usepackage{parskip} % убрать красную строку и добавить вертикальный отступ между абзацами
+
 
 %%% Мои команды
 \newcommand{\insertMyCode}[2]{ % вставка кода
@@ -67,7 +71,7 @@
 \usepackage{etoolbox} % логические операторы
 
 %%% Страница
-\usepackage{extsizes} % Возможность сделать 14-й шрифт
+% \usepackage{extsizes} % Возможность сделать 14-й шрифт % конфликт с parskip
 \usepackage{geometry} % Простой способ задавать поля
 \geometry{top=25mm}
 \geometry{bottom=35mm}
@@ -325,7 +329,6 @@ e машинное эпсилон = 2^-53
 \subsection{Сравнение результатов}
 
 Видно, что и машинный ноль, и машинное эпсилон, и машинная бесконечность совпадают для Python и для C++.
-
 
 
 
