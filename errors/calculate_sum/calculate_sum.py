@@ -13,7 +13,7 @@ def calculateSum(N: int):
 
 
 def calculateData():
-    N_list = [10 ** k for k in range(1, 6)]
+    N_list = [int(10 ** k) for k in range(1, 6)]
 
     sums = {}
     errors = {}
