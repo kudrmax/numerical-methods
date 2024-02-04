@@ -1,5 +1,4 @@
-from collections import defaultdict
-from prettytable import *
+import pandas as pd
 
 
 def calculateNum(n: int):
@@ -18,7 +17,7 @@ def calculateData():
 
     sums = {}
     errors = {}
-    digits = defaultdict(int)
+    digits = {}
     exact_sum = 8
 
     for N in N_list:
@@ -26,7 +25,7 @@ def calculateData():
         errors[N] = abs(sums[N] - exact_sum)
 
     for N in N_list:
-        i = -1
+        digits[N] = 0
         for i in range(0, 50):
             order_of_error = 1 / (10 ** i)
             if errors[N] <= order_of_error:
@@ -34,18 +33,24 @@ def calculateData():
             else:
                 break
 
-    # for N in N_list:
-    #     print(f"{sums[N]}\t±\t{errors[N]} \tс {digits[N]} значащих цифр, {N = }")
-
-    table = PrettyTable()
-    table.field_names = ["N", "Значение", "Погрешность", "Число значащих цифр"]
-    table.align = 'l'
+    sums_list = []
+    errors_list = []
+    digits_list = []
     for N in N_list:
-        table.add_row([N, sums[N], errors[N], digits[N]])
-    print(table)
+        sums_list.append(sums[N])
+        errors_list.append(errors[N])
+        digits_list.append(digits[N])
 
-    return {
-        "sums": sums,
-        "errors": errors,
-        "digits": digits
-    }
+    pd.options.display.float_format = '{:,.8f}'.format
+    df = pd.DataFrame({
+        'N': N_list,
+        "Значение": sums_list,
+        "Погрешность": errors_list,
+        "Число значащих цифр": digits_list
+    })
+    return df
+
+
+df = calculateData()
+print(df)
+df.to_latex("table.tex")
