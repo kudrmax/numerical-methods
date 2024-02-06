@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(PROJECT_NAME)
+project(numerical-methods)
 
 set(CMAKE_CXX_STANDARD 17)
 
