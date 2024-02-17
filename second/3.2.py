@@ -1,5 +1,3 @@
-import itertools
-
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -19,7 +17,6 @@ with open(output_file_path, "a") as f:
         for j in range(n):
             c = 0.1 * N * (i + 1) * (j + 1)
             A[i][j] = 1 / np.sqrt(c ** 2 + 0.58 * c)
-    # print(f'A = {A}', file=f)
 
     # заполним вектор b
     b = np.full(n, N, dtype=float)
