@@ -25,17 +25,15 @@ def gauss_elimination_number(A: np.ndarray, b: np.array) -> np.array:
 
     # обратный ход
     for m in range(n - 1, -1, -1):
-        numerator = b[m]
-        for l in range(m, n):
+        numerator = b[m]  # числитель
+        for l in range(m + 1, n):
             numerator -= A[m][l] * x[l]
-        denominator = A[m][m]
+        denominator = A[m][m]  # знаменатель
         x[m] = numerator / denominator
-        x[m] = (b[m] - np.dot(A[m, m + 1:], x[m + 1:])) / A[m, m]
 
     return x
 
 
-# Пример использования
 A = np.array([[2.0, 1.0, -1.0],
               [-3.0, -1.0, 2.0],
               [-2.0, 1.0, 2.0]])

@@ -27,6 +27,12 @@
     ]{#1}{#2}
 }
 
+\newcommand{\insertMyImage}[2]{
+\begin{figure}[h]
+    \includegraphics[width=#2\linewidth]{#1}
+\end{figure}
+}
+
 
 %%% Работа с русским языком
 \usepackage{cmap} % поиск в PDF
@@ -200,20 +206,20 @@ $$N = 8$$
 \subsection{аналитическое решение тестового примера и результат вычислительного эксперимента по тесту}
 
 \subsection{Код на Python}
-\insertMyCode{python3}{../3.1.8.py}
+\insertMyCode{python3}{../3.1.8/3.1.8.py}
 
 \subsection{Результаты}
 
-\insertMyCode{text}{../3.2.txt}
+\insertMyCode{text}{../3.2/3.2.txt}
 
 \begin{figure}[h]
-    \includegraphics[width=0.5\linewidth]{../../3.1.8.png}
-    \includegraphics[width=0.5\linewidth]{../../3.2.png}
+    \includegraphics[width=0.5\linewidth]{../../3.1.8/3.1.8.png}
+    \includegraphics[width=0.5\linewidth]{../../3.2/3.2.png}
 \end{figure}
 
-\input{../3.1.8.tex}
+\input{../3.1.8/3.1.8.tex}
 
-\input{../3.2.tex}
+\input{../3.2/3.2.tex}
 
 % \input{../temp.tex}
 
@@ -223,6 +229,37 @@ $$N = 8$$
 
 \section{3.2}
 
+\newpage
+
 \section{3.8.2}
+
+\subsection{Постановка задачи}
+
+Дана система уравнений $A z(x)=b(x)$ порядка $n$. Построить график функции $y(x) = \sum\limits_{i=1}^{n} z_i (x)$ на отрезке $[a, b]$.
+Для решения системы написать и использовать метод Гаусса со схемой полного перебора.
+
+\subsection{Код на Python}
+
+Я реализовал два метода Гаусса. Сначала метод Гаусса для численно заданных матрицы и вектора, а потом для численно заданой матрицы, но при этом символьго заданного вектора b.
+
+\subsubsection{Метод Гаусса для числел}
+
+\insertMyCode{python}{../3.8.2/3.8.2_numeric.py}
+
+\subsubsection{Метод Гаусса для числел}
+
+\insertMyCode{python}{../3.8.2/3.8.2_sympy.py}
+
+\newpage
+
+\subsection{Результаты}
+
+\insertMyCode{text}{../3.8.2/3.8.2.txt}
+
+Видно, что результаты, полученные через написанную мной функцию и высичленные через готовую функцию из sympy совпадают.
+
+\begin{figure}[h]
+    \includegraphics[width=0.5\linewidth]{../../3.8.2/3.8.2.png}
+\end{figure}
 
 \end{document}
