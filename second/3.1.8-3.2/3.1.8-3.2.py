@@ -100,46 +100,13 @@ with open('3.1.8-3.2.txt', "w") as f:
     plt.savefig('3.2.png', dpi=300)
     fig.show()
 
-    # сравним погрешности для b
-    # print(f"Сравнение погрешностей для b:", file=f)
-    delta_rel_x_error_list = np.empty(n, dtype=float)
-    for i in range(n):
-        b_error = b_error_list[i]
-        # delta_rel_b_old = np.linalg.norm(b - b_error, ord=np.inf) / np.linalg.norm(b, ord=np.inf)
-        delta_rel_b = np.abs(delta) / np.linalg.norm(b, ord=np.inf)
-        delta_rel_x_error = A_cond * delta_rel_b
-        delta_rel_x_error_list[i] = delta_rel_x_error
-        # print(f"практически: {d_for_b[i]},\tтеоритически: {delta_rel_x_error}", file=f)
+    # сделаем теоретическую оценку для b
+    delta_rel_b = np.abs(delta) / np.linalg.norm(b, ord=np.inf)  # тоже что и np.linalg.norm(b - b_error, ord=np.inf) / np.linalg.norm(b, ord=np.inf)
+    delta_rel_x_error_for_b = A_cond * delta_rel_b
+    print(f'Теоретическая оценка для для b: {delta_rel_x_error_for_b}', file=f)
 
-    print(f'Теоретическая оценка для для b: {A_cond * delta_rel_b}', file=f)
-    # pd.DataFrame(d_for_A).to_csv('d_for_A.csv', float_format='%.6f')
-    # df_for_b = pd.DataFrame({
-    #     'Индекс': list(range(n)),
-    #     'Практические': d_for_b,
-    #     "Теоретические": delta_rel_x_error_list
-    # })
-    # df_for_b.to_latex("3.1.8.tex", index=False)
-
-    # сравним погрешности для b
-    # print(f"Сравнение погрешностей для A:", file=f)
-    delta_rel_x_error_list = np.empty(A.shape, dtype=float)
-    for i in range(n):
-        for j in range(n):
-            A_error = A_error_list[i][j]
-            delta_rel_A = np.abs(delta) / np.linalg.norm(A, ord=np.inf)
-            delta_rel_x_error = A_cond * delta_rel_A
-            delta_rel_x_error_list[i][j] = delta_rel_x_error
-            # print(f"[{i}][{j}] практически: {d_for_A[i][j]},\tтеоритически: {delta_rel_x_error}", file=f)
-
-    # ids = np.empty((n, n), dtype=tuple)
-    # for i in range(n):
-    #     for j in range(n):
-    #         ids[i][j] = (i, j)
-    # df_for_A = pd.DataFrame({
-    #     'i': ids.reshape(-1),
-    #     'Практические': d_for_A.reshape(-1),
-    #     "Теоретические": delta_rel_x_error_list.reshape(-1)
-    # })
-    # df_for_A.to_latex("3.2.tex", index=False)
-    print(f'Теоретическая оценка для для A: {A_cond * delta_rel_A}', file=f)
+    # сделаем теоретическую оценку для A
+    delta_rel_A = np.abs(delta) / np.linalg.norm(A, ord=np.inf)
+    delta_rel_x_error_for_A = A_cond * delta_rel_A
+    print(f'Теоретическая оценка для для A: {delta_rel_x_error_for_A}', file=f)
 

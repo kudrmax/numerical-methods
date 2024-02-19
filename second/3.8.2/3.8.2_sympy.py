@@ -1,6 +1,7 @@
 import numpy as np
 import sympy as sp
 import os
+import pandas as pd
 
 output_file = "3.8.2"
 
@@ -55,6 +56,7 @@ with open(output_file + '.txt', "w") as f:
             else:
                 A[i - 1][j - 1] = (q - 1) ** (i + j)
     b = sp.Matrix([sp.Abs(X - n / 10) * i * sp.sin(X) for i in range(1, n + 1)])
+    pd.DataFrame(A).to_csv('A.csv', float_format='%.3f')
 
     # решим систему
     my_z = gauss_elimination_sympy(A, b)
