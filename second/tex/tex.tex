@@ -12,6 +12,7 @@
 % \usepackage{indentfirst}
 % \setlength{\parindent}{0pt} % Отключает отступ в начале каждого абзаца
 \usepackage{parskip} % убрать красную строку и добавить вертикальный отступ между абзацами
+\usepackage{csvsimple} % insert csv
 
 
 %%% Мои команды
@@ -151,13 +152,13 @@ urlcolor=cyan % на URL
 
 \Large
 \textbf{ОТЧЕТ} \\
-\textbf{По лабораторной работе № 1} \\
+\textbf{По лабораторной работе № 2} \\
 \vspace{5mm}
 \Large По предмету \\
 \LARGE\textbf{«Численные методы»} \\
 \vspace{5mm}
 \Large По теме \\
-\LARGE\textbf{«Теория погрешностей и машинная арифметика»}
+\LARGE\textbf{«Решение СЛАУ»}
 \end{center}
 
 \begin{center}
@@ -186,12 +187,15 @@ urlcolor=cyan % на URL
 \tableofcontents
 \newpage
 
-\section{3.1.8}
+\section{3.1.8 и 3.2}
 
 \subsection{Постановка задачи}
 
 Дана система уравнений $A x=b$ порядка $n = 6$. 
-Исследовать зависимость погрешности решения $x$ от погрешностей правой части системы $b$.
+
+3.1.8. Исследовать зависимость погрешности решения $x$ от погрешностей правой части системы $b$.
+
+3.2. Исследовать зависимость погрешности решения системы от погрешностей коэффициентов матрицы $A$.
 
 $$A_{ij} = \frac{1}{\sqrt{c_{ij}^2 + 0.58 c_{ij}}}$$
 
@@ -201,33 +205,62 @@ $$c_{ij} = 0.1 N i j$$
 
 $$N = 8$$
 
-\subsection{Теория}
-
-\subsection{аналитическое решение тестового примера и результат вычислительного эксперимента по тесту}
-
 \subsection{Код на Python}
-\insertMyCode{python3}{../3.1.8/3.1.8.py}
+
+Так как решение обоих задач аналогично я написал его в едином алгоритме.
+
+\insertMyCode{python3}{../3.1.8-3.2/3.1.8-3.2.py}
 
 \subsection{Результаты}
 
-\insertMyCode{text}{../3.2/3.2.txt}
+Матрица $A$:
 
+\csvautotabular{../3.1.8-3.2/A.csv}
+
+Вектор $b$:
+
+\csvautotabular{../3.1.8-3.2/b.csv}
+
+Вектор $x$:
+
+\csvautotabular{../3.1.8-3.2/x.csv}
+
+Вектор $d$ для $b$:
+
+\csvautotabular{../3.1.8-3.2/d_for_b.csv}
+
+Матрица $d$ для $A$:
+
+\csvautotabular{../3.1.8-3.2/d_for_A.csv}
+
+Полученные данные:
+
+\insertMyCode{text}{../3.1.8-3.2/3.1.8-3.2.txt}
+
+Наибольший вклад в 3.1.8 вносит $m=4$
+
+Наибольший вклад в 3.2 вносит элемент с индексами $(0, 0)$
+
+
+Видно, что теоретические оценки выполняются в обоих случиях.
+
+Теоретическая оценка для 3.1.8: $cond(A) \cdot \delta (b^m)$
+
+Теоретическая оценка для 3.2: $cond(A) \cdot \delta (A*)$
+
+\newpage
 \begin{figure}[h]
-    \includegraphics[width=0.5\linewidth]{../../3.1.8/3.1.8.png}
-    \includegraphics[width=0.5\linewidth]{../../3.2/3.2.png}
+    \center\includegraphics[width=0.49\linewidth]{../../3.1.8-3.2/3.1.8.png}
+    \caption{3.1.8}
+\end{figure}
+\begin{figure}[h]
+    \center\includegraphics[width=0.49\linewidth]{../../3.1.8-3.2/3.2.png}
+    \caption{3.2}
 \end{figure}
 
-\input{../3.1.8/3.1.8.tex}
+\subsubsection{Вывод}
 
-\input{../3.2/3.2.tex}
-
-% \input{../temp.tex}
-
-\makeatletter\newcommand\data[1][all]{\ifnum\pdfstrcmp{#1}{all}=0\def\data@out{\{"a": "test", "b": {[}1, 2{]}\}}\else\ifnum\pdfstrcmp{#1}{a}=0\def\data@out{test}\else\ifnum\pdfstrcmp{#1}{b}=0\let\data@out\data@I\else\def\data@out{??}\fi\fi\fi\data@out}\newcommand\data@I[1][all]{\ifnum\pdfstrcmp{#1}{all}=0\def\data@I@out{{[}1, 2{]}}\else\ifnum\pdfstrcmp{#1}{0}=0\def\data@I@out{1}\else\ifnum\pdfstrcmp{#1}{1}=0\def\data@I@out{2}\else\def\data@I@out{??}\fi\fi\fi\data@I@out}\makeatother
-% \input{../test.tex}
-
-
-\section{3.2}
+Видно, что практически полученная погрешность сильно меньше теоретической оценки.
 
 \newpage
 
@@ -242,11 +275,13 @@ $$N = 8$$
 
 Я реализовал два метода Гаусса. Сначала метод Гаусса для численно заданных матрицы и вектора, а потом для численно заданой матрицы, но при этом символьго заданного вектора b.
 
-\subsubsection{Метод Гаусса для числел}
+Пояснение к тому, как работает метод Гаусса находятся в коде в комментариях.
+
+\subsubsection{Метод Гаусса для чисел}
 
 \insertMyCode{python}{../3.8.2/3.8.2_numeric.py}
 
-\subsubsection{Метод Гаусса для числел}
+\subsubsection{Метод Гаусса для символов}
 
 \insertMyCode{python}{../3.8.2/3.8.2_sympy.py}
 
