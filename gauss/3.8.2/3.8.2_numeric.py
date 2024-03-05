@@ -5,12 +5,17 @@ def gauss_elimination_number(A: np.ndarray, b: np.array) -> np.array:
     n = A.shape[0]
     x = np.empty(n, dtype=float)
 
+    # храним индексы иксов, чтобы сделать обратный ход
+    col_indexes = np.empty(n, dtype=int)
+
     # прямой ход
     for i in range(n):
 
         # ищем максимальный коэффициент среди уравнений с неизвестными x и берем его индекс
         A_slice = A[i:][:]
         max_element_row_index = np.unravel_index(np.argmax(A_slice), A_slice.shape)[0] + i
+        max_element_col_index = np.unravel_index(np.argmax(A_slice), A_slice.shape)[1]
+        col_indexes[i] = max_element_col_index
 
         # меняем местами i-ое и max_element_row_index-ое уравнения
         if max_element_row_index != i:
@@ -19,12 +24,13 @@ def gauss_elimination_number(A: np.ndarray, b: np.array) -> np.array:
 
         # убираем коэффициенты при x
         for j in range(i + 1, n):
-            mu = A[j][i] / A[i][i]
+            mu = A[j][max_element_col_index] / A[i][max_element_col_index]
             A[j] -= mu * A[i]
             b[j] -= mu * b[i]
 
     # обратный ход
-    for m in range(n - 1, -1, -1):
+    for k in range(col_indexes.shape[0]):
+        m = col_indexes[-1 - k]  # идем в обратном порядке по идексам, которые сохранили
         numerator = b[m]  # числитель
         for l in range(m + 1, n):
             numerator -= A[m][l] * x[l]
