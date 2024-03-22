@@ -26,7 +26,7 @@ def zeid(A, b, x0, n):
         for i in range(B.shape[0]):  # x_new = B1 @ x_new + B2 @ x + c
             x_new[i] = np.sum(B[i][:i] * x_new[:i]) + np.sum(B[i][i:] * x[i:]) + c[i]
         x = x_new
-    return x
+    return x, B
 
 
 
@@ -40,8 +40,26 @@ A = np.array([[118.8, -14, -5, -89.1],
 b = np.array([92.5, -340.1, -898, 184.1])
 
 x_true = np.linalg.solve(A, b)
-x_zaid = zeid(A, b, np.zeros(b.shape[0]), 10)
 
+x1 = np.zeros(b.shape[0])
+x2 = np.ones(b.shape[0])
 
-print(f'{x_true = }')
-print(f'{x_zaid = }')
+x1_zaid, B = zeid(A, b, x1, 10)
+x2_zaid, _ = zeid(A, b, x2, 10)
+
+error1_abs = np.linalg.norm(x_true - x1_zaid, ord=np.inf)
+error2_abs = np.linalg.norm(x_true - x2_zaid, ord=np.inf)
+
+print(f'Решение методом Гаусса: {x_true}')
+print()
+
+print(f'Начальная точка: {x1}')
+print(f'Решение методом Зейделя: {x1_zaid}')
+print(f'Абсолютная погрешность: {error1_abs}')
+print()
+
+print(f'Начальная точка: {x2}')
+print(f'Решение методом Зейделя: {x2_zaid}')
+print(f'Абсолютная погрешность: {error2_abs}')
+
+print(f'Норма матрицы B: {np.linalg.norm(B, ord=np.inf)}')
