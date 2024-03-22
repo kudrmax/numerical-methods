@@ -51,11 +51,18 @@ print(f'{G_angle = }')
 # print(f'{G = }')
 #
 X_angles_num = np.array([0, 0], dtype=float)
-
-for _ in range(100):
+eps = 0.00000001
+count_iters = 0
+while True:
     g_num = np.array(g_angle.subs(zip(Angle, X_angles_num)), dtype=float)
     G_num = np.array(G_angle.subs(zip(Angle, X_angles_num)), dtype=float)
     p_num = np.linalg.solve(G_num, -g_num).flatten()
     alpha = 1
-    X_angles_num += alpha * p_num
-    print(f'{X_angles_num = }')
+    X_angle_new = X_angles_num + alpha * p_num
+    norma = np.linalg.norm(X_angle_new - X_angles_num)
+    if norma < eps:
+        break
+    X_angles_num = X_angle_new
+    count_iters += 1
+print(f'{X_angles_num = }')
+print(f'{count_iters = }')
