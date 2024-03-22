@@ -39,7 +39,8 @@ def find_min_newton(H, X0, X_sym):
     while True:
         g_num = np.array(g.subs(zip(Angle, X_num)), dtype=float)
         G_num = np.array(G.subs(zip(Angle, X_num)), dtype=float)
-        p_num = np.linalg.solve(G_num, -g_num).flatten()
+        # p_num = np.linalg.solve(G_num, -g_num).flatten()
+        p_num = (np.linalg.inv(G_num) @ (-g_num)).flatten()
         alpha = 0.5
         X_new = X_num + alpha * p_num
         if np.linalg.norm(X_new - X_num) < eps:
@@ -57,7 +58,8 @@ for P in P_list:
 
     H = sum((X - P) ** 2)
 
-    X_num = np.array([0, 0], dtype=float)
+    # for
+    X_num = np.array([100, 0], dtype=float)
 
     X_num, count = find_min_newton(H, X_num, Angle)
 
