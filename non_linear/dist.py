@@ -70,14 +70,9 @@ for P in P_list:
             min_count = count
 
     print(f'P = {[*P]}')
-    print(f'Минимальное расстояние: {[*min_dist]}')
-    print(f'Точка соответв. мин. раст.: {[*min_X_num]}')
+    print(f'Минимальное расстояние: {min_dist}')
     print(f'Точка соответв. мин. раст.: {[*min_X_num]}')
     print(f'Количество итераций: {min_count}')
     print()
 
-# x1, x2 = sp.symbols('x1 x2')
-# Angle = np.array([x1, x2])
-# H = x1 ** 2 + 10 * (x2 - sp.sin(x1)) ** 2
-# X_num, count = find_min_newton(H, np.array([10, 10]), Angle)
-# print(X_num, count)
+print(a1, a2, a3)
