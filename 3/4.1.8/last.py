@@ -25,18 +25,18 @@ X = np.array([x1, x2, x3])
 H = sum((X - P) ** 2)
 g = np.array([H.diff(x) for x in X])
 G = np.array([[H.diff(x).diff(y) for x in X] for y in X])
+# F = H.subs(zip(X, X_num)) + g_num @ (X - X_num) + 0.5 * (G_num @ (X - X_num)) @ (X - X_num)
+
+print(f'{H = }')
+print(f'{g = }')
+print(f'{G = }')
 
 X_num = np.array([0, 0, 0], dtype=float)
-g_num = np.array([g_row.subs(zip(X, X_num)) for g_row in g], dtype=float)
-G_num = np.array(G, dtype=float)
-
-# print(g)
-print(g_num)
-# print(G)
-print(G_num)
-
-# F = H.subs(zip(X, X_num)) + g_num @ (X - X_num) + 0.5 * (G_num @ (X - X_num)) @ (X - X_num)
-# print(F)
-
-p = np.linalg.solve(G_num, -g_num)
-print(p)
+for _ in range(100):
+    g_num = np.array([g_row.subs(zip(X, X_num)) for g_row in g], dtype=float)
+    G_num = np.array(G, dtype=float)
+    p_num = np.linalg.solve(G_num, -g_num)
+    alpha = 0.1
+    # print(f'{p_num = }')
+    X_num += alpha * p_num
+    print(f'{X_num = }')
