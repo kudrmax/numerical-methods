@@ -26,15 +26,17 @@ H = sum((X - P) ** 2)
 g = np.array([H.diff(x) for x in X])
 G = np.array([[H.diff(x).diff(y) for x in X] for y in X])
 
-X_num = np.array([0, 0, 0])
-g_num = np.array([g_row.subs(zip(X, X_num)) for g_row in g])
-G_num = G
+X_num = np.array([0, 0, 0], dtype=float)
+g_num = np.array([g_row.subs(zip(X, X_num)) for g_row in g], dtype=float)
+G_num = np.array(G, dtype=float)
 
 # print(g)
-# print(g_num)
+print(g_num)
 # print(G)
-# print(G_num)
+print(G_num)
 
-F = H.subs(zip(X, X_num)) + g_num @ (X - X_num) + 0.5 * (G_num @ (X - X_num)) @ (X - X_num)
+# F = H.subs(zip(X, X_num)) + g_num @ (X - X_num) + 0.5 * (G_num @ (X - X_num)) @ (X - X_num)
+# print(F)
 
-print(F)
+p = np.linalg.solve(G_num, -g_num)
+print(p)
