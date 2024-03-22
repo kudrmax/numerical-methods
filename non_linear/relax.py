@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def relax(A, b, x0, eps, w):
@@ -37,18 +38,41 @@ def relax(A, b, x0, eps, w):
     return x, count
 
 
-A = np.array([[118.8, -14, -5, -89.1],
-              [-59.4, 194, 5, 128.7],
-              [148.5, 12, -310, 148.5],
-              [0, 18.5, 90, -108.9]])
+A = np.array([[3.5,-1, 0.9, 0.2, 0.1],
+              [-1, 7.3, 2, 0.3, 2],
+              [0.9, 2, 4.9, -0.1, 0.2],
+              [0.2, 0.3, -0.1, 5, 1.2],
+              [0.1, 2, 0.2, 1.2, 7]])
 
-b = np.array([92.5, -340.1, -898, 184.1])
+b = np.array([1.0, 2, 3, 4, 5])
 
 x_true = np.linalg.solve(A, b)
-# for w
-w = 1.25
-x_relax, count = relax(A, b, np.zeros(b.shape[0]), 0.00001, w)
+
+w_list = []
+count_list = []
+x_list = []
+for w in np.arange(0.1, 1.9, 0.01):
+    w = round(w, 2)
+    x_relax, count = relax(A, b, np.zeros(b.shape[0]), 0.00001, w)
+    x_list.append(x_relax)
+    w_list.append(w)
+    count_list.append(count)
+
+best_w = None
+best_count = np.inf
+best_x = None
+for w, count, x in zip(w_list, count_list, x_list):
+    if count < best_count:
+        best_count = count
+        best_w = w
+        best_x = x
 
 print(f'Решение методом Гаусса: {x_true}')
-print(f'Решение системы методом релаксации: {x_relax}')
-print(f'Количество итераций: {count}')
+print('Решение иетодом релаксации при минимальном количестве итераций:')
+print(f'Решение системы методом релаксации: {best_x}')
+print(f'Количество итераций: {best_count}')
+print(f'Параметр w: {best_w}')
+
+plt.plot(w_list, count_list)
+plt.savefig('w_count.png', dpi=300)
+plt.show()
