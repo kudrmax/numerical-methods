@@ -32,8 +32,8 @@ X_angles = from_angles_to_x(Angle)
 
 H_angle = sum((X_angles - P) ** 2)
 
-g_angle = np.array([H_angle.diff(angle) for angle in Angle])
-G_angle = np.Matrix([[H_angle.diff(angle1).diff(angle2) for angle1 in Angle] for angle2 in Angle])
+g_angle = sp.Matrix([H_angle.diff(angle) for angle in Angle])
+G_angle = sp.Matrix([[H_angle.diff(angle1).diff(angle2) for angle1 in Angle] for angle2 in Angle])
 
 print(f'{H_angle = }')
 print(f'{g_angle = }')
@@ -51,11 +51,11 @@ print(f'{G_angle = }')
 # print(f'{G = }')
 #
 X_angles_num = np.array([0, 0], dtype=float)
+
 for _ in range(100):
-    g_num = np.array([g_row.subs(zip(Angle, X_angles_num)) for g_row in g_angle], dtype=float)
-    G_num = np.array(G_angle, dtype=float)
-    # p_num = np.linalg.solve(G_num, -g_num)
-    # alpha = 0.1
-    # print(f'{p_num = }')
-    # X_angles_num += alpha * p_num
-    # print(f'{X_angles_num = }')
+    g_num = np.array(g_angle.subs(zip(Angle, X_angles_num)), dtype=float)
+    G_num = np.array(G_angle.subs(zip(Angle, X_angles_num)), dtype=float)
+    p_num = np.linalg.solve(G_num, -g_num).flatten()
+    alpha = 1
+    X_angles_num += alpha * p_num
+    print(f'{X_angles_num = }')
