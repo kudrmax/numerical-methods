@@ -27,17 +27,13 @@ def from_angles_to_x(Angle):
 
 X = from_angles_to_x(Angle)
 
-for P in P_list:
+def find_min_newton(H, X0, X_sym):
+    Angle = X_sym
+    X_num = X0
 
-    H = sum((X - P) ** 2)
     g = sp.Matrix([H.diff(angle) for angle in Angle])
     G = sp.Matrix([[H.diff(angle1).diff(angle2) for angle1 in Angle] for angle2 in Angle])
 
-    # print(f'{H = }')
-    # print(f'{g = }')
-    # print(f'{G = }')
-
-    X_num = np.array([0, 0], dtype=float)
     eps = 0.01
     count_iteration = 0
     while True:
@@ -45,15 +41,26 @@ for P in P_list:
         G_num = np.array(G.subs(zip(Angle, X_num)), dtype=float)
         p_num = np.linalg.solve(G_num, -g_num).flatten()
         alpha = 1
-        X_angle_new = X_num + alpha * p_num
-        if np.linalg.norm(X_angle_new - X_num) < eps:
+        X_new = X_num + alpha * p_num
+        if np.linalg.norm(X_new - X_num) < eps:
             break
-        X_num = X_angle_new
+        X_num = X_new
 
         dist = sp.Expr(H).subs(zip(Angle, X_num))
         print(dist)
 
         count_iteration += 1
+
+    return X_num, count_iteration
+
+for P in P_list:
+
+    H = sum((X - P) ** 2)
+
+    X_num = np.array([0, 0], dtype=float)
+
+    X_num, count = find_min_newton(H, X_num, Angle)
+
 
     # dist = sp.Expr(H).subs(zip(Angle, X_num))
     # print(f'{dist = }')
@@ -61,4 +68,5 @@ for P in P_list:
     # print(f'{P = }')
     # print(f'{X_num = }')
     # print(f'{count_iteration = }')
+
     print()
