@@ -40,7 +40,7 @@ def find_min_newton(H, X0, X_sym):
         g_num = np.array(g.subs(zip(Angle, X_num)), dtype=float)
         G_num = np.array(G.subs(zip(Angle, X_num)), dtype=float)
         p_num = np.linalg.solve(G_num, -g_num).flatten()
-        alpha = 1
+        alpha = 0.5
         X_new = X_num + alpha * p_num
         if np.linalg.norm(X_new - X_num) < eps:
             break
@@ -53,27 +53,27 @@ def find_min_newton(H, X0, X_sym):
 
     return X_num, count_iteration
 
-# for P in P_list:
-#
-#     H = sum((X - P) ** 2)
-#
-#     X_num = np.array([0, 0], dtype=float)
-#
-#     X_num, count = find_min_newton(H, X_num, Angle)
-#
-#
-#     # dist = sp.Expr(H).subs(zip(Angle, X_num))
-#     # print(f'{dist = }')
-#
-#     # print(f'{P = }')
-#     # print(f'{X_num = }')
-#     # print(f'{count_iteration = }')
-#
-#     print()
+for P in P_list:
+
+    H = sum((X - P) ** 2)
+
+    X_num = np.array([0, 0], dtype=float)
+
+    X_num, count = find_min_newton(H, X_num, Angle)
 
 
-x1, x2 = sp.symbols('x1 x2')
-Angle = np.array([x1, x2])
-H = x1 ** 2 + 10 * (x2 - sp.sin(x1)) ** 2
-X_num, count = find_min_newton(H, np.array([10, 10]), Angle)
-print(X_num, count)
+    # dist = sp.Expr(H).subs(zip(Angle, X_num))
+    # print(f'{dist = }')
+
+    # print(f'{P = }')
+    # print(f'{X_num = }')
+    # print(f'{count_iteration = }')
+
+    print()
+
+
+# x1, x2 = sp.symbols('x1 x2')
+# Angle = np.array([x1, x2])
+# H = x1 ** 2 + 10 * (x2 - sp.sin(x1)) ** 2
+# X_num, count = find_min_newton(H, np.array([10, 10]), Angle)
+# print(X_num, count)
