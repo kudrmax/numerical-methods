@@ -21,7 +21,9 @@ def relax(A, b, x0, eps, w):
                 B2[i, j] = B[i, j]
 
     x = x0
+    count = 0
     while True:
+        count += 1
         x_new = np.zeros(x.shape, dtype=float)
         for i in range(B.shape[0]):  # x_new = B1 @ x_new + B2 @ x + c
             x_new[i] = np.sum(B[i][:i] * x_new[:i]) + np.sum(B[i][i:] * x[i:]) + c[i]
@@ -32,7 +34,7 @@ def relax(A, b, x0, eps, w):
         eps_new = ((1 - np.linalg.norm(B, ord=np.inf)) * eps) / np.linalg.norm(B2, ord=np.inf)
         if norma < eps_new:
             break
-    return x
+    return x, count
 
 
 A = np.array([[118.8, -14, -5, -89.1],
@@ -43,7 +45,10 @@ A = np.array([[118.8, -14, -5, -89.1],
 b = np.array([92.5, -340.1, -898, 184.1])
 
 x_true = np.linalg.solve(A, b)
-x_relax = relax(A, b, np.zeros(b.shape[0]), 0.00001, 1.25)
+# for w
+w = 1.25
+x_relax, count = relax(A, b, np.zeros(b.shape[0]), 0.00001, w)
 
 print(f'Решение методом Гаусса: {x_true}')
 print(f'Решение системы методом релаксации: {x_relax}')
+print(f'Количество итераций: {count}')
