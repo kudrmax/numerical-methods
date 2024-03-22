@@ -53,20 +53,27 @@ def find_min_newton(H, X0, X_sym):
 
     return X_num, count_iteration
 
-for P in P_list:
+# for P in P_list:
+#
+#     H = sum((X - P) ** 2)
+#
+#     X_num = np.array([0, 0], dtype=float)
+#
+#     X_num, count = find_min_newton(H, X_num, Angle)
+#
+#
+#     # dist = sp.Expr(H).subs(zip(Angle, X_num))
+#     # print(f'{dist = }')
+#
+#     # print(f'{P = }')
+#     # print(f'{X_num = }')
+#     # print(f'{count_iteration = }')
+#
+#     print()
 
-    H = sum((X - P) ** 2)
 
-    X_num = np.array([0, 0], dtype=float)
-
-    X_num, count = find_min_newton(H, X_num, Angle)
-
-
-    # dist = sp.Expr(H).subs(zip(Angle, X_num))
-    # print(f'{dist = }')
-
-    # print(f'{P = }')
-    # print(f'{X_num = }')
-    # print(f'{count_iteration = }')
-
-    print()
+x1, x2 = sp.symbols('x1 x2')
+Angle = np.array([x1, x2])
+H = x1 ** 2 + 10 * (x2 - sp.sin(x1)) ** 2
+X_num, count = find_min_newton(H, np.array([10, 10]), Angle)
+print(X_num, count)
