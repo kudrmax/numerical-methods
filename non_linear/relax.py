@@ -11,14 +11,14 @@ def relax(A, b, x0, eps, w):
     for i in range(c.shape[0]):
         c[i] = b[i] / A[i, i]
 
-    # B1 = np.zeros(B.shape)
-    # B2 = np.zeros(B.shape)
-    # for i in range(A.shape[0]):
-    #     for j in range(A.shape[1]):
-    #         if j < i:
-    #             B1[i, j] = B[i, j]
-    #         if j > i:
-    #             B2[i, j] = B[i, j]
+    B1 = np.zeros(B.shape)
+    B2 = np.zeros(B.shape)
+    for i in range(A.shape[0]):
+        for j in range(A.shape[1]):
+            if j < i:
+                B1[i, j] = B[i, j]
+            if j > i:
+                B2[i, j] = B[i, j]
 
     x = x0
     while True:
@@ -28,7 +28,9 @@ def relax(A, b, x0, eps, w):
             x_new[i] = w * x_new[i] + (1 - w) * x[i]
         norma = np.linalg.norm(x_new - x)
         x = x_new
-        if norma < eps:
+
+        eps_new = ((1 - np.linalg.norm(B, ord=np.inf)) * eps) / np.linalg.norm(B2, ord=np.inf)
+        if norma < eps_new:
             break
     return x
 
