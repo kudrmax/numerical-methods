@@ -14,7 +14,6 @@ P_list = np.array([
 
 x1, x2, x3 = sp.symbols('x1 x2 x3')
 phi, teta = sp.symbols('alpha teta')
-X = np.array([x1, x2, x3])
 Angle = np.array([phi, teta])
 
 
@@ -26,43 +25,40 @@ def from_angles_to_x(Angle):
     return np.array([x1, x2, x3])
 
 
-P = P_list[0]
+X = from_angles_to_x(Angle)
 
-X_angles = from_angles_to_x(Angle)
+for P in P_list:
 
-H_angle = sum((X_angles - P) ** 2)
+    H = sum((X - P) ** 2)
+    g = sp.Matrix([H.diff(angle) for angle in Angle])
+    G = sp.Matrix([[H.diff(angle1).diff(angle2) for angle1 in Angle] for angle2 in Angle])
 
-g_angle = sp.Matrix([H_angle.diff(angle) for angle in Angle])
-G_angle = sp.Matrix([[H_angle.diff(angle1).diff(angle2) for angle1 in Angle] for angle2 in Angle])
+    # print(f'{H = }')
+    # print(f'{g = }')
+    # print(f'{G = }')
 
-print(f'{H_angle = }')
-print(f'{g_angle = }')
-print(f'{G_angle = }')
+    X_num = np.array([0, 0], dtype=float)
+    eps = 0.01
+    count_iteration = 0
+    while True:
+        g_num = np.array(g.subs(zip(Angle, X_num)), dtype=float)
+        G_num = np.array(G.subs(zip(Angle, X_num)), dtype=float)
+        p_num = np.linalg.solve(G_num, -g_num).flatten()
+        alpha = 1
+        X_angle_new = X_num + alpha * p_num
+        if np.linalg.norm(X_angle_new - X_num) < eps:
+            break
+        X_num = X_angle_new
 
-# H = sum((X - P) ** 2)
-# print(H)
+        dist = sp.Expr(H).subs(zip(Angle, X_num))
+        print(dist)
 
-# g = np.array([H.diff(x) for x in X])
-# G = np.array([[H.diff(x).diff(y) for x in X] for y in X])
-# # F = H.subs(zip(X, X_num)) + g_num @ (X - X_num) + 0.5 * (G_num @ (X - X_num)) @ (X - X_num)
-#
-# print(f'{H = }')
-# print(f'{g = }')
-# print(f'{G = }')
-#
-X_angles_num = np.array([0, 0], dtype=float)
-eps = 0.00000001
-count_iters = 0
-while True:
-    g_num = np.array(g_angle.subs(zip(Angle, X_angles_num)), dtype=float)
-    G_num = np.array(G_angle.subs(zip(Angle, X_angles_num)), dtype=float)
-    p_num = np.linalg.solve(G_num, -g_num).flatten()
-    alpha = 1
-    X_angle_new = X_angles_num + alpha * p_num
-    norma = np.linalg.norm(X_angle_new - X_angles_num)
-    if norma < eps:
-        break
-    X_angles_num = X_angle_new
-    count_iters += 1
-print(f'{X_angles_num = }')
-print(f'{count_iters = }')
+        count_iteration += 1
+
+    # dist = sp.Expr(H).subs(zip(Angle, X_num))
+    # print(f'{dist = }')
+
+    # print(f'{P = }')
+    # print(f'{X_num = }')
+    # print(f'{count_iteration = }')
+    print()
