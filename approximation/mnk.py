@@ -6,11 +6,11 @@ def mnk(x: np.array, y: np.array, higher_degree=1):
     b = np.empty(m)  # b
     g = np.empty((m, m))  # Г
 
-    # заполняем b = (P^T)*P
+    # заполняем b = (P^T)*y
     for j in range(m):
         b[j] = np.sum(y * x ** j)
 
-    # заполняем Г = P*P
+    # заполняем Г = (P^T)*P
     for j in range(m):
         for k in range(m):
             g[j][k] = sum(x ** (k + j))
