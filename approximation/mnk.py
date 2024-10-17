@@ -15,7 +15,7 @@ def mnk(x: np.array, y: np.array, higher_degree=1):
         for k in range(m):
             g[j][k] = sum(x ** (k + j))
 
-    best_coeffs = np.linalg.solve(g, b)
+    best_coeffs = np.linalg.solve(g, b) # [(P^T)*P] * ? == (P^T)*y
 
     def f(px):
         py = 0
