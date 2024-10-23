@@ -11,7 +11,7 @@ def get_coeffs(g1, g2, f, x, h, n):
     return a, b, c, d
 
 
-def get_solution(g1, g2, f, apply_boundary_conditions, get_coeffs, n, x_left, x_right):
+def get_solution(g1, g2, f, apply_boundary_conditions, n, x_left, x_right):
     """
     Решение уравнения вида u''(x) + g1(x) * u'(x) + g2(x) * u(x) = f(x)
 

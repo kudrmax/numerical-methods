@@ -17,7 +17,7 @@ def get_coeffs(k, q, f, x, h, n):
 
 def get_solution(k, q, f, apply_boundary_conditions, n, x_left, x_right):
     """
-    Решение уравнения вида ДОПИСАТЬ
+    Решение уравнения вида -(k'(x) * u'(x))' + q(x) * u = f(x)
 
     Parameters
     ----------
