@@ -33,6 +33,7 @@
 Визуализация:
 
 ![](task2/gifs/animation1.gif)
-
 ![](task2/gifs/animation2.gif)
+![](task2/gifs/animation3.gif)
+![](task2/gifs/animation4.gif)
 

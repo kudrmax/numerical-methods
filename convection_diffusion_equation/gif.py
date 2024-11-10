@@ -36,8 +36,17 @@ def create_gif(
         image_folder: str,
         gif_path: str,
         create_images_for_gif,
-        step: int = 1
+        step: int = 1,
+        skip_creating: bool = False,
 ):
-    clear_folder(image_folder)
-    create_images_for_gif(image_folder)
+    if not skip_creating:
+        print('Очищаю папку...')
+        clear_folder(image_folder)
+
+        print('Создаю изображния...')
+        create_images_for_gif(image_folder)
+
+    print('Создаю gif...')
     combine_images_to_gif(image_folder, gif_path, step)
+
+    print('Gif cоздано')
