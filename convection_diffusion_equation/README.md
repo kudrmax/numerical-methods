@@ -14,7 +14,7 @@
 
 Визуализация:
 
-![](task1/animation.gif)
+![](task1/gifs/animation1.gif)
 
 ## Численное решение
 
@@ -32,5 +32,7 @@
 
 Визуализация:
 
-![](task2/animation.gif)
+![](task2/gifs/animation1.gif)
+
+![](task2/gifs/animation2.gif)
 
