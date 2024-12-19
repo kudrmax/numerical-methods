@@ -17,7 +17,7 @@
 6. Уравнения в частных производных
     - [Часть 1](urmati)
     - [Часть 2](convection_diffusion_equation)
-    - [Часть 3](another_urmati)
+    - [Часть 3](convection_diffusion_equation/task3)
 
 # Контакты
 

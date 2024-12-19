@@ -14,10 +14,11 @@ def clear_folder(image_folder):
 def combine_images_to_gif(
         image_folder: str,
         gif_path: str,
-        step: int = 1
+        step: int = 1,
+        end_index = -1
 ):
     images = []
-    for filename in sorted(os.listdir(image_folder)):
+    for filename in sorted(os.listdir(image_folder))[:end_index]:
         if filename.endswith('.png'):
             file_path = os.path.join(image_folder, filename)
             images.append(Image.open(file_path))
@@ -38,6 +39,7 @@ def create_gif(
         create_images_for_gif,
         step: int = 1,
         skip_creating: bool = False,
+        end_index = -1,
 ):
     if not skip_creating:
         print('Очищаю папку...')
@@ -47,6 +49,6 @@ def create_gif(
         create_images_for_gif(image_folder)
 
     print('Создаю gif...')
-    combine_images_to_gif(image_folder, gif_path, step)
+    combine_images_to_gif(image_folder, gif_path, step, end_index)
 
     print('Gif cоздано')
